@@ -1,0 +1,31 @@
+{
+  "name": "youtube-chat",
+  "version": "0.0.0",
+  "description": "My suggestion of improved YouTube livestream chat",
+  "type": "module",
+  "scripts": {
+    "start": "vite",
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
+    "test": "vitest"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@solidjs/testing-library": "^0.8.10",
+    "@tailwindcss/postcss": "^4.3.3",
+    "@testing-library/jest-dom": "^6.6.3",
+    "baseline-browser-mapping": "^2.11.16",
+    "jsdom": "^25.0.1",
+    "postcss": "^8.5.26",
+    "solid-devtools": "^0.34.3",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5.7.2",
+    "vite": "^7.1.4",
+    "vite-plugin-solid": "2.11.9",
+    "vitest": "^4.0.0"
+  },
+  "dependencies": {
+    "solid-js": "^1.9.5"
+  }
+}
