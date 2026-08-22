@@ -2,7 +2,7 @@ import { Chat } from "./chat";
 
 export function App() {
   return (
-    <div class="w-screen h-screen bg-stone-50 flex items-center justify-center">
+    <div class="w-screen h-screen bg-stone-50 flex items-center justify-center font-[Roboto]">
       <Chat />
     </div>
   )
