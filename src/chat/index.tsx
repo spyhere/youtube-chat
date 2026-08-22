@@ -8,7 +8,7 @@ export function Chat() {
       <Header />
       <div class="flex flex-1 flex-col">
         <div class="h-px w-full bg-black/20" />
-        <div class="flex-1">
+        <div class="flex-1 relative">
           <Body />
         </div>
         <div class="border-t border-black/20">
