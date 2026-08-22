@@ -17,7 +17,7 @@ export function Header() {
       </div>
 
       <div class="flex">
-        <button class="flex items-center h-6 text-[12px]/[24px] px-1.75 border rounded-xl border-black/20 hover:bg-black/20 transition cursor-pointer">
+        <button class="flex items-center h-6 text-[12px]/[24px] px-1.75 border rounded-xl border-black/20 hover:bg-black/20 active:bg-black/28 transition cursor-pointer">
           <div class="w-3 h-3 mr-1">
             <div class="w-full h-full block fill-violet-700">
               <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
@@ -31,7 +31,7 @@ export function Header() {
       </div>
 
       <div>
-        <button class="h-10 w-10 rounded-full flex items-center justify-center hover:bg-black/20 transition cursor-pointer">
+        <button class="h-10 w-10 rounded-full flex items-center justify-center hover:bg-black/20 active:bg-black/28 transition cursor-pointer">
           <div class="h-6 w-6 flex items-center justify-center">
             <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
               <path d="M12 4a2 2 0 100 4 2 2 0 000-4Zm0 6a2 2 0 100 4 2 2 0 000-4Zm0 6a2 2 0 100 4 2 2 0 000-4Z"></path>
@@ -41,7 +41,7 @@ export function Header() {
       </div>
 
       <div>
-        <button class="h-10 w-10 rounded-full flex items-center justify-center hover:bg-black/20 transition cursor-pointer">
+        <button class="h-10 w-10 rounded-full flex items-center justify-center hover:bg-black/20 active:bg-black/28 transition cursor-pointer">
           <div class="h-6 w-6 flex items-center justify-center">
             <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
               <path d="M17.293 5.293 12 10.586 6.707 5.293a1 1 0 10-1.414 1.414L10.586 12l-5.293 5.293a1 1 0 001.414 1.414L12 13.414l5.293 5.293a1 1 0 001.414-1.414L13.414 12l5.293-5.293a1 1 0 10-1.414-1.414Z"></path>
