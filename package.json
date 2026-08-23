@@ -26,6 +26,7 @@
     "vitest": "^4.0.0"
   },
   "dependencies": {
+    "@chenglou/pretext": "^0.0.8",
     "@tanstack/solid-virtual": "^3.13.37",
     "solid-js": "^1.9.5"
   }
