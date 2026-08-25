@@ -1,7 +1,11 @@
 import { createSignal, onCleanup, onMount, Show } from "solid-js"
 import { DonateIco, ReactionsIco, SendIco, SmileIco } from "../icons"
 
-export function Footer() {
+type Props = {
+  onSubmit: (input: string) => void
+}
+
+export function Footer(props: Props) {
   let editableRef!: HTMLDivElement
   let wrapperRef!: HTMLDivElement
   const [inputCount, setInputCount] = createSignal(0)
@@ -9,6 +13,19 @@ export function Footer() {
   const onInput = (e: InputEvent) => {
     const input = (e.currentTarget as HTMLDivElement).textContent
     setInputCount(input.length)
+  }
+
+  const onSubmit = () => {
+    props.onSubmit(editableRef.textContent)
+    editableRef.innerText = ""
+    setInputCount(0)
+  }
+
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (e.key == "Enter" && !e.shiftKey) {
+      e.preventDefault()
+      onSubmit()
+    }
   }
 
   // Forced hack since stupid contenteditable cannot lose focus when clicking outside, it moves caret instead.
@@ -52,6 +69,7 @@ export function Footer() {
             class="mr-3 max-h-9 min-h-4 w-full outline-none caret-black overflow-x-hidden overflow-y-auto break-all"
             contentEditable
             onInput={onInput}
+            on:keydown={handleKeyDown}
             ref={editableRef}
           ></div>
         </div>
@@ -79,7 +97,10 @@ export function Footer() {
         {/*Reactions icon -->*/}
         <div class="ml-3">
           <div class="w-9 h-9 my-3 rounded-[18px] bg-black/5 flex items-center justify-center active:bg-black/20">
-            <button class="bg-none outline-none cursor-pointer w-full h-full flex items-center justify-center p-0 border-0">
+            <button
+              class="bg-none outline-none cursor-pointer w-full h-full flex items-center justify-center p-0 border-0"
+              onClick={onSubmit}
+            >
               <Show
                 when={hasInput()}
                 fallback={<ReactionsIco />}

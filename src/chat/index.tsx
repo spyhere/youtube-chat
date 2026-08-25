@@ -3,6 +3,9 @@ import { Footer } from "./footer"
 import { Header } from "./header"
 
 export function Chat() {
+  const onSubmit = (input: string) => {
+    console.log('input: ', input);
+  }
   return (
     <div class="w-100 h-150 bg-white flex flex-col rounded-lg border border-black/20">
       <Header />
@@ -12,7 +15,7 @@ export function Chat() {
           <Body />
         </div>
         <div class="border-t border-black/20">
-          <Footer />
+          <Footer onSubmit={onSubmit} />
         </div>
       </div>
     </div>
