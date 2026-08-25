@@ -28,6 +28,8 @@
   "dependencies": {
     "@chenglou/pretext": "^0.0.8",
     "@tanstack/solid-virtual": "^3.13.37",
+    "eslint": "^10.9.1",
+    "eslint-plugin-solid": "^0.16.0",
     "solid-js": "^1.9.5"
   }
 }
