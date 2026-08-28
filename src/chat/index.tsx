@@ -1,15 +1,27 @@
+import { OWNER_AVATAR } from "../constants"
 import { Body } from "./body"
 import { Footer } from "./footer"
 import { Header } from "./header"
+import { createStore } from "solid-js/store"
 
-const messages = [
-  { id: 1, username: "Username1", text: "Hello! This is a replicated YouTube chat message. sdsdsdsd sd sds sd sd sds ds dsdadasd asd asd asd asd asd asd " },
-]
+export type MessageT = {
+  id: number
+  username: string
+  text: string
+  avatar: string
+}
 
 export function Chat() {
+  const [messages, setMessages] = createStore<MessageT[]>([])
   const onSubmit = (input: string) => {
-    console.log('input: ', input);
+    setMessages(messages.length, {
+      id: messages.length,
+      avatar: OWNER_AVATAR,
+      username: "Me",
+      text: input
+    })
   }
+
   return (
     <div class="w-100 h-150 bg-white flex flex-col rounded-lg border border-black/20">
       <Header />

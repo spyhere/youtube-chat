@@ -1,5 +1,5 @@
-import { For } from "solid-js";
 import { Message } from "./message";
+import { createMemo, For } from "solid-js";
 import { createVirtualizer } from "@tanstack/solid-virtual"
 import { layout, prepare } from "@chenglou/pretext";
 
@@ -14,22 +14,22 @@ export function Body(props: Props) {
   // NOTE: when making the chat resizable make these numbers responsive
   const scrollWidth = 355 - 24
 
-  const textHandle = props.messages.map(it => prepare(it.text, "13px Roboto"))
+  const textHandle = createMemo(() => props.messages.map(it => prepare(it.text, "13px Roboto")))
 
   // NOTE: Try virtua js as well
   const virtualizer = createVirtualizer({
-    count: props.messages.length,
+    get count() {
+      return props.messages.length
+    },
     getScrollElement: () => scrollElementRef,
     estimateSize: index =>
-      layout(textHandle[index], scrollWidth, LINE_HEIGHT).height + 8
-    ,
-    getItemKey: (index) => props.messages[index].id,
-    anchorTo: "end",
+      layout(textHandle()[index], scrollWidth, LINE_HEIGHT).height + 8,
+    getItemKey: index => props.messages[index].id,
     followOnAppend: "smooth",
+    anchorTo: "end",
     scrollEndThreshold: 80,
     overscan: 2
   })
-
 
   return (
     <div class="flex flex-col absolute bottom-0 h-full w-full  text-white overflow-hidden">
