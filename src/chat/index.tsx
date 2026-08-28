@@ -5,6 +5,7 @@ import { Footer } from "./footer"
 import { Header } from "./header"
 import { createStore } from "solid-js/store"
 import { genLorem, getMessageLen } from "../utils"
+import { genUsername } from "../utils/genUsername"
 
 export type MessageT = {
   id: number
@@ -31,7 +32,7 @@ export function Chat() {
         setMessages(messages.length, {
           id: messages.length,
           avatar: OTHER_AVATAR,
-          username: "Guest",
+          username: genUsername(),
           text: genLorem(getMessageLen())
         })
         produceMessage()

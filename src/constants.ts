@@ -19,3 +19,10 @@ export const MESSAGE_PROBS = {
   }
 }
 
+export const USERNAME_PROBS = {
+  MIN_LEN: 4,
+  MAX_LEN: 10,
+  NUM_PROBS: 0.80,
+  NUM_MAX: 5
+}
+
