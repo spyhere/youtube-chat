@@ -1,8 +1,11 @@
-import { OWNER_AVATAR } from "../constants"
+import { onCleanup, onMount } from "solid-js"
+import { OTHER_AVATAR, OWNER_AVATAR } from "../constants"
 import { Body } from "./body"
 import { Footer } from "./footer"
 import { Header } from "./header"
 import { createStore } from "solid-js/store"
+import { genLorem } from "./loremGen"
+import { getMessageLen } from "../utils"
 
 export type MessageT = {
   id: number
@@ -21,6 +24,24 @@ export function Chat() {
       text: input
     })
   }
+
+  onMount(() => {
+    let timer: ReturnType<typeof setTimeout>
+    const produceMessage = () => {
+      timer = setTimeout(() => {
+        setMessages(messages.length, {
+          id: messages.length,
+          avatar: OTHER_AVATAR,
+          username: "Guest",
+          text: genLorem(getMessageLen())
+        })
+        produceMessage()
+      }, Math.random() * 5000)
+    }
+    produceMessage()
+
+    onCleanup(() => clearTimeout(timer))
+  })
 
   return (
     <div class="w-100 h-150 bg-white flex flex-col rounded-lg border border-black/20">
