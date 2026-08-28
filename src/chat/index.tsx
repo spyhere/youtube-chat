@@ -4,8 +4,7 @@ import { Body } from "./body"
 import { Footer } from "./footer"
 import { Header } from "./header"
 import { createStore } from "solid-js/store"
-import { genLorem } from "./loremGen"
-import { getMessageLen } from "../utils"
+import { genLorem, getMessageLen } from "../utils"
 
 export type MessageT = {
   id: number

@@ -1,4 +1,4 @@
-import { MESSAGE_PROBS } from "./constants"
+import { MESSAGE_PROBS } from "../constants"
 
 export const getMessageLen = () => {
   const { SHORT, LONG } = MESSAGE_PROBS
