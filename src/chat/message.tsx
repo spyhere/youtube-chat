@@ -6,7 +6,7 @@ type Props = {
 
 export function Message(props: Props) {
   return (
-    <div class="group flex items-start text-[13px] py-1 px-6 pr-0 hover:bg-black/5 cursor-pointer rounded">
+    <div class="group opacity-0 animate-fade-in flex items-start text-[13px] py-1 px-6 pr-0 hover:bg-black/5 cursor-pointer rounded">
       <div class="shrink-0 mr-3">
         <img class="h-6 w-6 rounded-full aspect-square object-cover" src={props.avatar} alt="Avatar" />
       </div>
