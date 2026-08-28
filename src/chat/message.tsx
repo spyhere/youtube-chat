@@ -11,8 +11,8 @@ export function Message(props: Props) {
         <img class="h-6 w-6 rounded-full aspect-square object-cover" src={props.avatar} alt="Avatar" />
       </div>
 
-      <div class="flex overflow-hidden text-black mr-0.5">
-        <div>
+      <div class="flex grow overflow-hidden text-black mr-0.5">
+        <div class="grow">
           <span class="font-bold mr-2 text-neutral-800/60">@{props.username}</span>
           <span class="wrap-break-word">{props.message}</span>
         </div>
