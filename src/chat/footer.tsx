@@ -17,6 +17,9 @@ export function Footer(props: Props) {
   }
 
   const onSubmit = () => {
+    if (inputCount() === 0) {
+      return
+    }
     props.onSubmit(editableRef.textContent)
     editableRef.innerText = ""
     setInputCount(0)
