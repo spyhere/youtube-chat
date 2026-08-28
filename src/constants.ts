@@ -1,0 +1,3 @@
+export const OWNER_AVATAR = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZf3Xlgb6dIbE9wUkxoK0xdEQ3VMzdaYTviCM96GHFSA&s=10"
+export const OTHER_AVATAR = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRebMyeUntdaLB8BSH2TWx3GcPoCUzBww7rZFXe2wi5GQ&s=10"
+

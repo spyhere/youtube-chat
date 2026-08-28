@@ -1,10 +1,11 @@
-import { Message } from "./message";
 import { createMemo, For } from "solid-js";
 import { createVirtualizer } from "@tanstack/solid-virtual"
 import { layout, prepare } from "@chenglou/pretext";
+import { MessageT } from ".";
+import { Message } from "./message";
 
 type Props = {
-  messages: { id: number, username: string, text: string }[]
+  messages: MessageT[]
 }
 
 const LINE_HEIGHT = 19
@@ -63,7 +64,7 @@ export function Body(props: Props) {
                 }}
               >
                 <Message
-                  avatar="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRebMyeUntdaLB8BSH2TWx3GcPoCUzBww7rZFXe2wi5GQ&s=10"
+                  avatar={props.messages[it.index].avatar}
                   message={props.messages[it.index].text}
                   username={props.messages[it.index].username}
                 />

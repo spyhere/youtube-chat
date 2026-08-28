@@ -1,5 +1,6 @@
 import { createSignal, onCleanup, onMount, Show } from "solid-js"
 import { DonateIco, ReactionsIco, SendIco, SmileIco } from "../icons"
+import { OWNER_AVATAR } from "../constants"
 
 type Props = {
   onSubmit: (input: string) => void
@@ -52,7 +53,7 @@ export function Footer(props: Props) {
   return (
     <div class="flex flex-row items-center px-6 py-1.5 text-[14px]">
       <Show when={hasInput()}>
-        <img class="h-6 w-6 mr-3 rounded-full aspect-square object-cover" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZf3Xlgb6dIbE9wUkxoK0xdEQ3VMzdaYTviCM96GHFSA&s=10" alt="Avatar" />
+        <img class="h-6 w-6 mr-3 rounded-full aspect-square object-cover" src={OWNER_AVATAR} alt="Avatar" />
       </Show>
       <div
         style={hasInput() ? { "border-radius": "8px" } : {}}
