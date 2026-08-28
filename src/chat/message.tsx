@@ -1,14 +1,20 @@
-export function Message() {
+type Props = {
+  username: string
+  avatar: string
+  message: string
+}
+
+export function Message(props: Props) {
   return (
     <div class="group flex items-start text-[13px] py-1 px-6 pr-0 hover:bg-black/5 cursor-pointer rounded">
       <div class="shrink-0 mr-3">
-        <img class="h-6 w-6 rounded-full aspect-square object-cover" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRebMyeUntdaLB8BSH2TWx3GcPoCUzBww7rZFXe2wi5GQ&s=10" alt="Avatar" />
+        <img class="h-6 w-6 rounded-full aspect-square object-cover" src={props.avatar} alt="Avatar" />
       </div>
 
       <div class="flex overflow-hidden text-black mr-0.5">
         <div>
-          <span class="font-bold mr-2 text-neutral-800/60">@Username</span>
-          <span class="wrap-break-word">Hello! This is a replicated YouTube chat message. sdsdsdsd sd sds sd sd sds ds dsdadasd asd asd asd asd asd asd </span>
+          <span class="font-bold mr-2 text-neutral-800/60">@{props.username}</span>
+          <span class="wrap-break-word">{props.message}</span>
         </div>
 
         <div class="invisible group-hover:visible">
