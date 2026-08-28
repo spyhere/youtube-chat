@@ -1,10 +1,13 @@
+import { CHAR } from "../constants"
+
 const original = "Nam scelerisque in nisl sed feugiat. Aliquam condimentum, leo eget accumsan laoreet, velit ex tincidunt sem, vel maximus dui nisl vel tellus. Vestibulum aliquam accumsan nulla, a sodales augue blandit eget. Donec vulputate bibendum justo id lobortis. Vivamus nec viverra nisi. Phasellus placerat, metus ac aliquet egestas, ex est malesuada nisl, in ornare ex elit vel mauris. Maecenas pulvinar enim a rutrum tempus. Quisque vitae condimentum nibh. Nunc sem sem, maximus malesuada magna vel, consequat auctor lectus. Sed interdum efficitur tellus eget sagittis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus ut elit varius, dapibus est ut, gravida nisi. Sed tincidunt metus non ante laoreet ultrices. Fusce sagittis ipsum vitae blandit pelle"
 const lorem = original.split(" ")
 
 // NOTE: Assumes latin chars only (for Lorem Ipsum)
 function isWord(it: string): boolean {
   const cCode = it.toLowerCase().charCodeAt(0)
-  return cCode >= 97 && cCode <= 122
+  const { LOW_START, LOW_END } = CHAR.LAT
+  return cCode >= LOW_START && cCode <= LOW_END
 }
 
 export function genLorem(amount: number): string {
