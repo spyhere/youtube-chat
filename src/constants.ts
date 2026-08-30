@@ -43,3 +43,13 @@ export const USERNAME_PROBS = {
   NUM_MAX: 5
 }
 
+export const CHAT_PROBS = {
+  MAX_PARTICIPANTS: 12,
+  MIN_PARTICIPANTS: 2,
+  JOIN: 0.3,
+  LEAVE: 0.2,
+  MESSAGE_FREQ: 3500,
+  JOIN_FREQ: 5000,
+  LEAVE_FREQ: 6000
+}
+
