@@ -1,6 +1,23 @@
 export const OWNER_AVATAR = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZf3Xlgb6dIbE9wUkxoK0xdEQ3VMzdaYTviCM96GHFSA&s=10"
 export const OTHER_AVATAR = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRebMyeUntdaLB8BSH2TWx3GcPoCUzBww7rZFXe2wi5GQ&s=10"
 
+export const MARKS_PROB = {
+  _NONE: 0.85,
+  _DOT: 0.1,
+  _QUESTION: 0.04,
+  _MULTIPLE_QUESTIONS: 0.01,
+  MAX_QUESTION: 5,
+  MULTIPLE_QUESTIONS: function() {
+    return this._MULTIPLE_QUESTIONS
+  },
+  QUESTION: function() {
+    return this._MULTIPLE_QUESTIONS + this._QUESTION
+  },
+  DOT: function() {
+    return this._MULTIPLE_QUESTIONS + this._QUESTION + this._DOT
+  }
+}
+
 export const CHAR = {
   LAT: {
     LOW_START: 97,
