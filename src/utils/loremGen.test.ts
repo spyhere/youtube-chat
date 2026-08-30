@@ -17,7 +17,7 @@ describe("genLorem", () => {
     expect(genLorem(7)).toBe("Nam scelerisque in nisl sed feugiat. Aliquam?")
 
     Math.random = () => MARKS_PROB.DOT()
-    expect(genLorem(2)).toBe("Aliquam accumsan.")
+    expect(genLorem(2)).toBe("Maximus dui.")
   })
 })
 

@@ -1,11 +1,10 @@
 import { onCleanup, onMount } from "solid-js"
-import { CHAT_PROBS, OTHER_AVATAR, OWNER_AVATAR } from "../constants"
+import { CHAT_PROBS, OWNER_AVATAR } from "../constants"
 import { Body } from "./body"
 import { Footer } from "./footer"
 import { Header } from "./header"
 import { createStore } from "solid-js/store"
-import { genLorem, getMessageLen } from "../utils"
-import { genUsername } from "../utils/genUsername"
+import { genLorem, getMessageLen, genUser } from "../utils"
 
 export type Participant = {
   username: string
@@ -20,7 +19,7 @@ export type MessageT = {
 }
 
 export function Chat() {
-  const [participants, setParticipants] = createStore<Participant[]>([])
+  const [participants, setParticipants] = createStore<Participant[]>([genUser(), genUser(), genUser(), genUser()])
   const [messages, setMessages] = createStore<MessageT[]>([])
   const onSubmit = (input: string) => {
     setMessages(messages.length, {
@@ -64,10 +63,7 @@ export function Chat() {
           joinUser()
           return
         }
-        setParticipants(participants.length, {
-          avatar: OTHER_AVATAR,
-          username: genUsername()
-        })
+        setParticipants(participants.length, genUser())
         joinUser()
       }, Math.random() * CHAT_PROBS.JOIN_FREQ)
     }

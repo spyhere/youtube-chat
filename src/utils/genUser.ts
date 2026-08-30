@@ -1,6 +1,7 @@
-import { CHAR, USERNAME_PROBS } from "../constants";
+import { Participant } from "../chat";
+import { CHAR, OTHER_AVATAR, USERNAME_PROBS } from "../constants";
 
-export function genUsername(): string {
+function genUsername(): string {
   const { MIN_LEN, MAX_LEN, NUM_PROBS } = USERNAME_PROBS
   const len = Math.max(Math.round(Math.random() * (MAX_LEN - MIN_LEN)) + MIN_LEN, MIN_LEN)
   let numLen = 0
@@ -19,5 +20,12 @@ export function genUsername(): string {
     }
   }
   return res.join("")
+}
+
+export function genUser(): Participant {
+  return {
+    avatar: OTHER_AVATAR,
+    username: genUsername()
+  }
 }
 
