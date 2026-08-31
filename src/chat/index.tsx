@@ -1,10 +1,11 @@
 import { onCleanup, onMount } from "solid-js"
-import { CHAT_PROBS, OWNER_AVATAR } from "../constants"
+import { CHAT_PROBS, MESSAGE_SIZE, OWNER_AVATAR } from "../constants"
 import { Body } from "./body"
 import { Footer } from "./footer"
 import { Header } from "./header"
 import { createStore } from "solid-js/store"
 import { genLorem, getMessageLen, genUser } from "../utils"
+import { prepare, PreparedText } from "@chenglou/pretext"
 
 export type Participant = {
   username: string
@@ -12,10 +13,11 @@ export type Participant = {
 }
 
 export type MessageT = {
-  id: number
-  username: string
-  text: string
   avatar: string
+  id: number
+  text: string
+  prepared: PreparedText
+  username: string
 }
 
 export function Chat() {
@@ -25,8 +27,9 @@ export function Chat() {
     setMessages(messages.length, {
       id: messages.length,
       avatar: OWNER_AVATAR,
+      prepared: prepare(input, MESSAGE_SIZE),
+      text: input,
       username: "Me",
-      text: input
     })
   }
 
@@ -39,11 +42,13 @@ export function Chat() {
           return
         }
         const user = participants[Math.floor(Math.random() * participants.length)]
+        const msg = genLorem(getMessageLen())
         setMessages(messages.length, {
           id: messages.length,
           avatar: user.avatar,
+          prepared: prepare(msg, MESSAGE_SIZE),
+          text: msg,
           username: user.username,
-          text: genLorem(getMessageLen())
         })
         produceMessage()
       }, Math.random() * CHAT_PROBS.MESSAGE_FREQ)
