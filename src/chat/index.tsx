@@ -4,7 +4,7 @@ import { Body } from "./body"
 import { Footer } from "./footer"
 import { Header } from "./header"
 import { createStore } from "solid-js/store"
-import { genLorem, getMessageLen, genUser } from "../utils"
+import { genLorem, getMessageLen, genUser, destroyUser } from "../utils"
 import { prepare, PreparedText } from "@chenglou/pretext"
 
 export type Participant = {
@@ -84,6 +84,7 @@ export function Chat() {
           return
         }
         const index = Math.round(Math.random() * participants.length)
+        destroyUser(participants[index])
         setParticipants(arr => arr.filter((_, idx) => idx != index))
         kickUser()
       }, Math.random() * CHAT_PROBS.LEAVE_FREQ)
