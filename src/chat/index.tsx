@@ -1,4 +1,4 @@
-import { onCleanup, onMount } from "solid-js"
+import { createSignal, onCleanup, onMount } from "solid-js"
 import { CHAT_PROBS, MESSAGE_SIZE, OWNER_AVATAR } from "../constants"
 import { Body } from "./body"
 import { Footer } from "./footer"
@@ -20,7 +20,10 @@ export type MessageT = {
   username: string
 }
 
+export type Mode = "chat" | "participants"
+
 export function Chat() {
+  const [mode, setMode] = createSignal<Mode>("chat")
   const [participants, setParticipants] = createStore<Participant[]>([genUser(), genUser(), genUser(), genUser()])
   const [messages, setMessages] = createStore<MessageT[]>([])
   const onSubmit = (input: string) => {
@@ -31,6 +34,10 @@ export function Chat() {
       text: input,
       username: "Me",
     })
+  }
+
+  const handleMode = (mode: Mode) => {
+    setMode(mode)
   }
 
   onMount(() => {
@@ -95,7 +102,10 @@ export function Chat() {
 
   return (
     <div class="w-100 h-150 bg-white flex flex-col rounded-lg border border-black/20">
-      <Header />
+      <Header
+        mode={mode()}
+        onChangeMode={handleMode}
+      />
       <div class="flex flex-1 flex-col">
         <div class="h-px w-full bg-black/20" />
         <div class="flex-1 relative">

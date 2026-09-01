@@ -1,19 +1,48 @@
-export function Header() {
+import { createSignal, Show } from "solid-js";
+import { Dropdown } from "./dropdown";
+import { Mode } from ".";
+
+type Props = {
+  mode: Mode
+  onChangeMode: (mode: Mode) => void
+}
+
+export function Header(props: Props) {
+  const [isOpen, setOpen] = createSignal(false)
+
+  const handleDropdown = (flag: boolean) => {
+    setOpen(flag)
+  }
+
   return (
-    <div class="h-12 p-2 flex items-center justify-center">
-      <div class="flex ml-4 flex-1">
-        <div class="cursor-pointer">Top chat</div>
-        <div class="cursor-pointer">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="24"
-            viewBox="0 0 24 24"
-            width="24"
-            aria-hidden="true"
-            style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
-            <path d="M18.707 8.793a1 1 0 00-1.414 0L12 14.086 6.707 8.793a1 1 0 10-1.414 1.414L12 16.914l6.707-6.707a1 1 0 000-1.414Z"></path>
-          </svg>
+    <div class="relative h-12 p-2 flex items-center justify-center">
+      <div class="flex flex-1">
+        <div
+          onClick={[setOpen, true]}
+          class="flex ml-4"
+        >
+          <div class="cursor-pointer">
+            Chat
+          </div>
+          <div class="cursor-pointer">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="24"
+              viewBox="0 0 24 24"
+              width="24"
+              aria-hidden="true"
+              style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
+              <path d="M18.707 8.793a1 1 0 00-1.414 0L12 14.086 6.707 8.793a1 1 0 10-1.414 1.414L12 16.914l6.707-6.707a1 1 0 000-1.414Z"></path>
+            </svg>
+          </div>
         </div>
+        <Show when={isOpen()}>
+          <Dropdown
+            onChangeMode={props.onChangeMode}
+            mode={props.mode}
+            onClick={handleDropdown}
+          />
+        </Show>
       </div>
 
       <div class="flex">
