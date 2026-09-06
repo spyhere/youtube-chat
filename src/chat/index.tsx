@@ -90,7 +90,7 @@ export function Chat() {
           kickUser()
           return
         }
-        const index = Math.round(Math.random() * participants.length)
+        const index = Math.floor(Math.random() * participants.length)
         destroyUser(participants[index])
         setParticipants(arr => arr.filter((_, idx) => idx != index))
         kickUser()
