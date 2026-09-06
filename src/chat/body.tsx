@@ -33,10 +33,10 @@ export function Body(props: Props) {
   const isAtBottom = () => {
     const el = virtualizer.scrollElement
     if (!el) {
-      return
+      return false
     }
     if (el.scrollHeight === el.clientHeight) {
-      return
+      return false
     }
     return el.scrollHeight - el.scrollTop - el.clientHeight < FOLLOW_THRESHOLD
   }
@@ -47,12 +47,24 @@ export function Body(props: Props) {
     if (!isAtBottom()) {
       return
     }
-    const lastMsg = virtualizer.getVirtualItems().at(-1)
-    if (!lastMsg) {
-      return
-    }
     console.log("Following chat")
   })
+
+  let isChatFull = false
+  const checkIsChatFull = () => {
+    if (isChatFull) {
+      return true
+    }
+    const el = virtualizer.scrollElement
+    if (!el) {
+      return false
+    }
+    if (virtualizer.getTotalSize() <= el.clientHeight) {
+      return false
+    }
+    isChatFull = true
+    return true
+  }
 
   return (
     <div class="flex flex-col absolute bottom-0 h-full w-full  text-white overflow-hidden">
@@ -64,6 +76,7 @@ export function Body(props: Props) {
         [&::-webkit-scrollbar-thumb]:border-solid 
         [&::-webkit-scrollbar-thumb]:min-h-7.5
         "
+        style={!checkIsChatFull() ? { "justify-content": "flex-end" } : {}}
         ref={scrollElementRef}
       >
         <div
@@ -71,6 +84,8 @@ export function Body(props: Props) {
             flex: "none",
             height: `${virtualizer.getTotalSize()}px`,
             position: 'relative',
+            transition: "height 200ms ease-out",
+            "overflow-y": "clip",
             width: '100%',
           }}>
           <For each={virtualizer.getVirtualItems()}>
