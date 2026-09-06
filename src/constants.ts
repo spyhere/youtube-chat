@@ -2,6 +2,8 @@ export const OWNER_AVATAR = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd
 
 export const MESSAGE_SIZE = "13px Roboto"
 
+export const FOLLOW_THRESHOLD = 80
+
 export const MARKS_PROB = {
   _NONE: 0.85,
   _DOT: 0.1,

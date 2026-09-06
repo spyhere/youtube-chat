@@ -1,8 +1,9 @@
-import { For } from "solid-js";
+import { createEffect, For } from "solid-js";
 import { createVirtualizer } from "@tanstack/solid-virtual"
 import { layout } from "@chenglou/pretext";
 import { MessageT } from ".";
 import { Message } from "./message";
+import { FOLLOW_THRESHOLD } from "../constants";
 
 type Props = {
   messages: MessageT[]
@@ -23,10 +24,34 @@ export function Body(props: Props) {
     estimateSize: index =>
       layout(props.messages[index].prepared, scrollWidth, LINE_HEIGHT).height + 8,
     getItemKey: index => props.messages[index].id,
-    followOnAppend: "smooth",
+    followOnAppend: "instant",
     anchorTo: "end",
     scrollEndThreshold: 80,
     overscan: 2
+  })
+
+  const isAtBottom = () => {
+    const el = virtualizer.scrollElement
+    if (!el) {
+      return
+    }
+    if (el.scrollHeight === el.clientHeight) {
+      return
+    }
+    return el.scrollHeight - el.scrollTop - el.clientHeight < FOLLOW_THRESHOLD
+  }
+
+  createEffect(() => {
+    props.messages.length
+
+    if (!isAtBottom()) {
+      return
+    }
+    const lastMsg = virtualizer.getVirtualItems().at(-1)
+    if (!lastMsg) {
+      return
+    }
+    console.log("Following chat")
   })
 
   return (
