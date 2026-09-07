@@ -4,6 +4,7 @@ import { layout } from "@chenglou/pretext";
 import { MessageT } from ".";
 import { Message } from "./message";
 import { FOLLOW_THRESHOLD } from "../constants";
+import { throttle } from "../utils";
 
 type Props = {
   messages: MessageT[]
@@ -39,15 +40,6 @@ export function Body(props: Props) {
     return el.scrollHeight - el.scrollTop - el.clientHeight < FOLLOW_THRESHOLD
   }
 
-  createEffect(() => {
-    props.messages.length
-
-    if (!isAtBottom()) {
-      return
-    }
-    console.log("Following chat")
-  })
-
   // HACK: Can't find a better way to make new messages appear from bottom when chat is empty
   let isChatFull = false
   const checkIsChatFull = () => {
@@ -71,20 +63,21 @@ export function Body(props: Props) {
 
   const [isFollowing, setIsFollowing] = createSignal(true)
 
+  // NOTE: Height transition is 200ms, so throttled functions are being called only 2 times
+  const TIMEOUT = 100
   onMount(() => {
+    const scrollToEndThrottled = throttle(virtualizer.scrollToEnd, TIMEOUT)
     const ro = new ResizeObserver((_: ResizeObserverEntry[]) => {
       if (isFollowing()) {
-        virtualizer.scrollToEnd()
+        scrollToEndThrottled()
       }
     })
     ro.observe(innerScroll)
 
-    function onScroll(_: Event) {
-      setIsFollowing(isAtBottom())
-    }
-    scrollElementRef.addEventListener("scroll", onScroll)
+    const onScrollThrottled = throttle((_: Event) => setIsFollowing(isAtBottom()), TIMEOUT)
+    scrollElementRef.addEventListener("scroll", onScrollThrottled)
     onCleanup(() => {
-      scrollElementRef.removeEventListener("scroll", onScroll)
+      scrollElementRef.removeEventListener("scroll", onScrollThrottled)
       ro.unobserve(innerScroll)
     })
   })
