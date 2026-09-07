@@ -1,4 +1,4 @@
-import { createEffect, For } from "solid-js";
+import { createEffect, createSignal, For, onCleanup, onMount } from "solid-js";
 import { createVirtualizer } from "@tanstack/solid-virtual"
 import { layout } from "@chenglou/pretext";
 import { MessageT } from ".";
@@ -13,6 +13,7 @@ const LINE_HEIGHT = 19
 
 export function Body(props: Props) {
   let scrollElementRef!: HTMLDivElement
+  let innerScroll!: HTMLDivElement
   // NOTE: when making the chat resizable make these numbers responsive
   const scrollWidth = 355 - 24
   // NOTE: Try virtua js as well
@@ -24,9 +25,6 @@ export function Body(props: Props) {
     estimateSize: index =>
       layout(props.messages[index].prepared, scrollWidth, LINE_HEIGHT).height + 8,
     getItemKey: index => props.messages[index].id,
-    followOnAppend: "instant",
-    anchorTo: "end",
-    scrollEndThreshold: 80,
     overscan: 2
   })
 
@@ -50,6 +48,7 @@ export function Body(props: Props) {
     console.log("Following chat")
   })
 
+  // HACK: Can't find a better way to make new messages appear from bottom when chat is empty
   let isChatFull = false
   const checkIsChatFull = () => {
     if (isChatFull) {
@@ -66,6 +65,26 @@ export function Body(props: Props) {
     return true
   }
 
+  const [isFollowing, setIsFollowing] = createSignal(true)
+
+  onMount(() => {
+    const ro = new ResizeObserver((_: ResizeObserverEntry[]) => {
+      if (isFollowing()) {
+        virtualizer.scrollToEnd()
+      }
+    })
+    ro.observe(innerScroll)
+
+    function onScroll(_: Event) {
+      setIsFollowing(isAtBottom())
+    }
+    scrollElementRef.addEventListener("scroll", onScroll)
+    onCleanup(() => {
+      scrollElementRef.removeEventListener("scroll", onScroll)
+      ro.unobserve(innerScroll)
+    })
+  })
+
   return (
     <div class="flex flex-col absolute bottom-0 h-full w-full  text-white overflow-hidden">
       <div
@@ -80,6 +99,7 @@ export function Body(props: Props) {
         ref={scrollElementRef}
       >
         <div
+          ref={innerScroll}
           style={{
             flex: "none",
             height: `${virtualizer.getTotalSize()}px`,
