@@ -58,7 +58,8 @@ export function Body(props: Props) {
   }
 
   const handleFollowChatClick = () => {
-    virtualizer.scrollToEnd({ behavior: "smooth" })
+    // NOTE: "instant" is safer, with smooth the height of container can change mid air, so it won't reach the end and stick
+    virtualizer.scrollToEnd({ behavior: "instant" })
   }
 
   const [isFollowing, setIsFollowing] = createSignal(true)
