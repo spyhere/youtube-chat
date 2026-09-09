@@ -1,4 +1,4 @@
-import { createEffect, createSignal, For, onCleanup, onMount } from "solid-js";
+import { createSignal, For, onCleanup, onMount } from "solid-js";
 import { createVirtualizer } from "@tanstack/solid-virtual"
 import { layout } from "@chenglou/pretext";
 import { MessageT } from ".";
@@ -12,7 +12,7 @@ type Props = {
 
 const LINE_HEIGHT = 19
 
-export function Body(props: Props) {
+export function BodyMessages(props: Props) {
   let scrollElementRef!: HTMLDivElement
   let innerScroll!: HTMLDivElement
   // NOTE: when making the chat resizable make these numbers responsive

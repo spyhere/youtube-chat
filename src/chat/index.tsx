@@ -1,6 +1,6 @@
 import { createSignal, onCleanup, onMount } from "solid-js"
 import { CHAT_PROBS, MESSAGE_SIZE, OWNER_AVATAR } from "../constants"
-import { Body } from "./body"
+import { BodyMessages } from "./bodyMessages"
 import { Footer } from "./footer"
 import { Header } from "./header"
 import { createStore } from "solid-js/store"
@@ -109,7 +109,7 @@ export function Chat() {
       <div class="flex flex-1 flex-col">
         <div class="h-px w-full bg-black/20" />
         <div class="flex-1 relative">
-          <Body
+          <BodyMessages
             messages={messages}
           />
         </div>
