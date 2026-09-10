@@ -91,7 +91,8 @@ export function BodyMessages(props: Props) {
         [&::-webkit-scrollbar-thumb]:bg-gray-400 
         [&::-webkit-scrollbar-thumb]:border-2
         [&::-webkit-scrollbar-thumb]:border-solid 
-        [&::-webkit-scrollbar-thumb]:min-h-7.5"
+        [&::-webkit-scrollbar-thumb]:min-h-7.5
+        scrollbar-gutter-stable"
         style={!checkIsChatFull() ? { "justify-content": "flex-end" } : {}}
         ref={scrollElementRef}
       >
