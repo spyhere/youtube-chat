@@ -27,6 +27,11 @@ export function Chat() {
   const [mode, setMode] = createSignal<Mode>("chat")
   const [participants, setParticipants] = createStore<ParticipantT[]>([genUser(), genUser(), genUser(), genUser()])
   const [messages, setMessages] = createStore<MessageT[]>([])
+  const [isFollowing, setIsFollowing] = createSignal(true)
+
+  const changeFollowing = (flag: boolean) => {
+    setIsFollowing(flag)
+  }
   const onSubmit = (input: string) => {
     setMessages(messages.length, {
       id: messages.length,
@@ -113,6 +118,8 @@ export function Chat() {
           <Switch>
             <Match when={mode() === "chat"}>
               <BodyMessages
+                isFollowing={isFollowing()}
+                changeFollowing={changeFollowing}
                 messages={messages}
               />
             </Match>

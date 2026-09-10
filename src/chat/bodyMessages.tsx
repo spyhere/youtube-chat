@@ -1,4 +1,4 @@
-import { createSignal, For, onCleanup, onMount } from "solid-js";
+import { For, onCleanup, onMount } from "solid-js";
 import { createVirtualizer } from "@tanstack/solid-virtual"
 import { layout } from "@chenglou/pretext";
 import type { MessageT } from ".";
@@ -8,6 +8,8 @@ import { throttle } from "../utils";
 
 type Props = {
   messages: MessageT[]
+  isFollowing: boolean
+  changeFollowing: (flag: boolean) => void
 }
 
 const LINE_HEIGHT = 19
@@ -62,20 +64,18 @@ export function BodyMessages(props: Props) {
     virtualizer.scrollToEnd({ behavior: "instant" })
   }
 
-  const [isFollowing, setIsFollowing] = createSignal(true)
-
   // NOTE: Height transition is 200ms, so throttled functions are being called only 2 times
   const TIMEOUT = 100
   onMount(() => {
     const scrollToEndThrottled = throttle(virtualizer.scrollToEnd, TIMEOUT)
     const ro = new ResizeObserver((_: ResizeObserverEntry[]) => {
-      if (isFollowing()) {
+      if (props.isFollowing) {
         scrollToEndThrottled()
       }
     })
     ro.observe(innerScroll)
 
-    const onScrollThrottled = throttle((_: Event) => setIsFollowing(isAtBottom()), TIMEOUT)
+    const onScrollThrottled = throttle((_: Event) => props.changeFollowing(isAtBottom()), TIMEOUT)
     scrollElementRef.addEventListener("scroll", onScrollThrottled)
     onCleanup(() => {
       scrollElementRef.removeEventListener("scroll", onScrollThrottled)
@@ -130,7 +130,7 @@ export function BodyMessages(props: Props) {
       <button
         onClick={handleFollowChatClick}
         class="absolute bottom-0 p-1 bg-blue-500 shadow-md/20 mb-2 rounded-[50%] fill-white cursor-pointer left-1/2 -translate-x-1/2 transition-transform ease-out delay-200 duration-100"
-        style={!isFollowing() ? { transform: "translateY(0)" } : { transform: "translateY(40px)" }}
+        style={!props.isFollowing ? { transform: "translateY(0)" } : { transform: "translateY(40px)" }}
       >
         <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;"><path d="M12 3a1 1 0 00-1 1v13.586l-5.293-5.293a1 1 0 10-1.414 1.414L12 21.414l7.707-7.707a1 1 0 10-1.414-1.414L13 17.586V4a1 1 0 00-1-1Z"></path></svg>
       </button>
