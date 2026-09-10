@@ -1,4 +1,4 @@
-import { createSignal, Show } from "solid-js";
+import { createMemo, createSignal, Show } from "solid-js";
 import { Dropdown } from "./dropdown";
 import { Mode } from ".";
 
@@ -14,6 +14,8 @@ export function Header(props: Props) {
     setOpen(flag)
   }
 
+  const getButtonName = createMemo(() => props.mode[0].toUpperCase() + props.mode.slice(1))
+
   return (
     <div class="relative h-12 p-2 flex items-center justify-center">
       <div class="flex flex-1">
@@ -22,7 +24,7 @@ export function Header(props: Props) {
           class="flex ml-4"
         >
           <div class="cursor-pointer">
-            Chat
+            {getButtonName()}
           </div>
           <div class="cursor-pointer">
             <svg
