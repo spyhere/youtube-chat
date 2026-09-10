@@ -1,7 +1,7 @@
 import { createSignal, For, onCleanup, onMount } from "solid-js";
 import { createVirtualizer } from "@tanstack/solid-virtual"
 import { layout } from "@chenglou/pretext";
-import { MessageT } from ".";
+import type { MessageT } from ".";
 import { Message } from "./message";
 import { FOLLOW_THRESHOLD } from "../constants";
 import { throttle } from "../utils";
@@ -91,8 +91,7 @@ export function BodyMessages(props: Props) {
         [&::-webkit-scrollbar-thumb]:bg-gray-400 
         [&::-webkit-scrollbar-thumb]:border-2
         [&::-webkit-scrollbar-thumb]:border-solid 
-        [&::-webkit-scrollbar-thumb]:min-h-7.5
-        "
+        [&::-webkit-scrollbar-thumb]:min-h-7.5"
         style={!checkIsChatFull() ? { "justify-content": "flex-end" } : {}}
         ref={scrollElementRef}
       >

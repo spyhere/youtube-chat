@@ -1,4 +1,4 @@
-import { Participant } from "../chat";
+import { ParticipantT } from "../chat";
 import { CHAR, USERNAME_PROBS } from "../constants";
 
 const allAvatars = [
@@ -48,7 +48,7 @@ function genUsername(): string {
   return res.join("")
 }
 
-export function genUser(): Participant {
+export function genUser(): ParticipantT {
   const avatar = avatarsKeeper.pop() || allAvatars[Math.floor(Math.random() * allAvatars.length)]
   return {
     avatar: avatar,
@@ -56,7 +56,7 @@ export function genUser(): Participant {
   }
 }
 
-export function destroyUser(user: Participant) {
+export function destroyUser(user: ParticipantT) {
   avatarsKeeper.push(user.avatar)
 }
 

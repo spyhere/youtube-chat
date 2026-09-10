@@ -1,4 +1,4 @@
-import { createSignal, onCleanup, onMount } from "solid-js"
+import { createSignal, Match, onCleanup, onMount, Switch } from "solid-js"
 import { CHAT_PROBS, MESSAGE_SIZE, OWNER_AVATAR } from "../constants"
 import { BodyMessages } from "./bodyMessages"
 import { Footer } from "./footer"
@@ -6,10 +6,11 @@ import { Header } from "./header"
 import { createStore } from "solid-js/store"
 import { genLorem, getMessageLen, genUser, destroyUser } from "../utils"
 import { prepare, PreparedText } from "@chenglou/pretext"
+import { BodyParticipants } from "./bodyParticipants"
 
-export type Participant = {
+export type ParticipantT = {
+  avatar: string,
   username: string
-  avatar: string
 }
 
 export type MessageT = {
@@ -24,7 +25,7 @@ export type Mode = "chat" | "participants"
 
 export function Chat() {
   const [mode, setMode] = createSignal<Mode>("chat")
-  const [participants, setParticipants] = createStore<Participant[]>([genUser(), genUser(), genUser(), genUser()])
+  const [participants, setParticipants] = createStore<ParticipantT[]>([genUser(), genUser(), genUser(), genUser()])
   const [messages, setMessages] = createStore<MessageT[]>([])
   const onSubmit = (input: string) => {
     setMessages(messages.length, {
@@ -109,9 +110,18 @@ export function Chat() {
       <div class="flex flex-1 flex-col">
         <div class="h-px w-full bg-black/20" />
         <div class="flex-1 relative">
-          <BodyMessages
-            messages={messages}
-          />
+          <Switch>
+            <Match when={mode() === "chat"}>
+              <BodyMessages
+                messages={messages}
+              />
+            </Match>
+            <Match when={mode() === "participants"}>
+              <BodyParticipants
+                participants={participants}
+              />
+            </Match>
+          </Switch>
         </div>
         <div class="border-t border-black/20">
           <Footer onSubmit={onSubmit} />
