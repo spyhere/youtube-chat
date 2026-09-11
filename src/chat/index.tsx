@@ -47,9 +47,9 @@ export function Chat() {
   }
 
   onMount(() => {
-    let timer: ReturnType<typeof setTimeout>
+    let messageTimer: ReturnType<typeof setTimeout>
     const produceMessage = () => {
-      timer = setTimeout(() => {
+      messageTimer = setTimeout(() => {
         if (participants.length == 0) {
           produceMessage()
           return
@@ -67,7 +67,7 @@ export function Chat() {
       }, Math.random() * CHAT_PROBS.MESSAGE_FREQ)
     }
     produceMessage()
-    onCleanup(() => clearTimeout(timer))
+    onCleanup(() => clearTimeout(messageTimer))
 
     let joinTimer: ReturnType<typeof setTimeout>
     const joinUser = () => {
