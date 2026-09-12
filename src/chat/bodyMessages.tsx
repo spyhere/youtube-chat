@@ -130,7 +130,7 @@ export function BodyMessages(props: Props) {
       </div>
       <button
         onClick={handleFollowChatClick}
-        class="absolute bottom-0 p-1 bg-blue-500 shadow-md/20 mb-2 rounded-[50%] fill-white cursor-pointer left-1/2 -translate-x-1/2 transition-transform ease-out delay-200 duration-100"
+        class="absolute bottom-0 p-1 bg-blue-500 shadow-md/20 mb-2 rounded-[50%] fill-white cursor-pointer left-1/2 -translate-x-1/2 transition-transform ease-out duration-100"
         style={!props.isFollowing ? { transform: "translateY(0)" } : { transform: "translateY(40px)" }}
       >
         <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;"><path d="M12 3a1 1 0 00-1 1v13.586l-5.293-5.293a1 1 0 10-1.414 1.414L12 21.414l7.707-7.707a1 1 0 10-1.414-1.414L13 17.586V4a1 1 0 00-1-1Z"></path></svg>
