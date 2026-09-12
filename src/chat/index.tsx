@@ -17,6 +17,7 @@ export type MessageT = {
   avatar: string
   id: number
   prepared: PreparedText
+  refId?: number
   refPrepared?: PreparedText
   refText?: string
   refUser?: string
@@ -133,6 +134,7 @@ export function Chat() {
           avatar: user.avatar,
           id: messages.length,
           prepared: prepare(addr, MESSAGE_SIZE),
+          refId: msg.id,
           refPrepared: prepare(msg.text, MESSAGES_SIZE_REF),
           refText: msg.text,
           refUser: msg.username,

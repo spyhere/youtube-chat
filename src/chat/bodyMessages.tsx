@@ -1,4 +1,4 @@
-import { For, onCleanup, onMount } from "solid-js";
+import { createSignal, For, onCleanup, onMount } from "solid-js";
 import { createVirtualizer } from "@tanstack/solid-virtual"
 import { layout } from "@chenglou/pretext";
 import type { MessageT } from ".";
@@ -65,9 +65,16 @@ export function BodyMessages(props: Props) {
     return true
   }
 
+  const [idxHistory, setIdxHistory] = createSignal<number[]>([])
   const handleFollowChatClick = () => {
-    // NOTE: "instant" is safer, with smooth the height of container can change mid air, so it won't reach the end and stick
-    virtualizer.scrollToEnd({ behavior: "instant" })
+    if (idxHistory().length > 0) {
+      const prevIdx = idxHistory().at(-1)!
+      setIdxHistory(prev => prev.slice(0, prev.length - 1))
+      virtualizer.scrollToIndex(prevIdx, { behavior: "smooth", align: "center" })
+    } else {
+      // NOTE: "instant" is safer, with smooth the height of container can change mid air, so it won't reach the end and stick
+      virtualizer.scrollToEnd({ behavior: "instant" })
+    }
   }
 
   // NOTE: Height transition is 200ms, so throttled functions are being called only 2 times
@@ -88,6 +95,13 @@ export function BodyMessages(props: Props) {
       ro.unobserve(innerScroll)
     })
   })
+
+  const scrollToMessage = (idx: number, prevIdx: number) => {
+    virtualizer.scrollToIndex(idx, { behavior: "smooth", align: "center" })
+    if (prevIdx !== idxHistory().at(-1)) {
+      setIdxHistory(prev => [...prev, prevIdx])
+    }
+  }
 
   return (
     <div class="flex flex-col absolute bottom-0 h-full w-full  text-white overflow-hidden">
@@ -124,7 +138,10 @@ export function BodyMessages(props: Props) {
                   width: '100%',
                 }}
               >
-                <Message message={props.messages[it.index]} />
+                <Message
+                  message={props.messages[it.index]}
+                  scrollToMsg={scrollToMessage}
+                />
               </div>
             )}
           </For>

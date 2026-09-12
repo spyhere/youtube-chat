@@ -3,6 +3,7 @@ import type { MessageT } from "."
 
 type Props = {
   message: MessageT
+  scrollToMsg: (idx: number, prevIdx: number) => void
 }
 
 export function Message(props: Props) {
@@ -30,7 +31,12 @@ export function Message(props: Props) {
                 <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M11 1H12L16 5L12 9H11V6H5C3.34315 6 2 7.34315 2 9C2 10.6569 3.34315 12 5 12H12V14H5C2.23858 14 0 11.7614 0 9C0 6.23858 2.23858 4 5 4H11V1Z" fill="#000000"></path> </g></svg>
               </span>
               <span class="inline-block font-bold mr-2 text-[10px] text-neutral-800/60">@{message.refUser}</span>
-              <span class="text-[10px] wrap-break-word italic text-neutral-800/60">[{message.refText}]</span>
+              <span
+                class="block ml-1 p-0.5 rounded-sm text-[10px] wrap-break-word italic text-neutral-800/60 hover:bg-black/8"
+                onClick={() => props.scrollToMsg(message.refId!, message.id)}
+              >
+                [{message.refText}]
+              </span>
             </div>
             <span class="wrap-break-word">{message.text}</span>
           </Show>
