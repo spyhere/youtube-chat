@@ -18,6 +18,9 @@ const LINE_HEIGHT_REF = 15
 export function BodyMessages(props: Props) {
   let scrollElementRef!: HTMLDivElement
   let innerScroll!: HTMLDivElement
+
+  const [highlightedMsg, setHighlightedMsg] = createSignal<number | null>(null)
+  const [idxHistory, setIdxHistory] = createSignal<number[]>([]) // Keep history of ref messages
   // NOTE: when making the chat resizable make these numbers responsive
   const scrollWidth = 355 - 24
   // NOTE: Try virtua js as well
@@ -45,7 +48,11 @@ export function BodyMessages(props: Props) {
     if (el.scrollHeight === el.clientHeight) {
       return false
     }
-    return el.scrollHeight - el.scrollTop - el.clientHeight < FOLLOW_THRESHOLD
+    const res = el.scrollHeight - el.scrollTop - el.clientHeight < FOLLOW_THRESHOLD
+    if (res === true) {
+      setIdxHistory([])
+    }
+    return res
   }
 
   // HACK: Can't find a better way to make new messages appear from bottom when chat is empty
@@ -65,15 +72,16 @@ export function BodyMessages(props: Props) {
     return true
   }
 
-  const [idxHistory, setIdxHistory] = createSignal<number[]>([])
   const handleFollowChatClick = () => {
     if (idxHistory().length > 0) {
       const prevIdx = idxHistory().at(-1)!
       setIdxHistory(prev => prev.slice(0, prev.length - 1))
       virtualizer.scrollToIndex(prevIdx, { behavior: "smooth", align: "center" })
+      setHighlightedMsg(prevIdx)
     } else {
       // NOTE: "instant" is safer, with smooth the height of container can change mid air, so it won't reach the end and stick
       virtualizer.scrollToEnd({ behavior: "instant" })
+      setHighlightedMsg(null)
     }
   }
 
@@ -101,7 +109,26 @@ export function BodyMessages(props: Props) {
     if (prevIdx !== idxHistory().at(-1)) {
       setIdxHistory(prev => [...prev, prevIdx])
     }
+    setHighlightedMsg(idx)
   }
+
+  let highlightTimer: ReturnType<typeof setTimeout>
+  const isMessagedHighlighted = (idx: number) => {
+    const isHighlighted = idx === highlightedMsg()
+    if (isHighlighted === true) {
+      clearTimeout(highlightTimer)
+      // Make highlight animation to work once
+      highlightTimer = setTimeout(() => {
+        if (highlightedMsg() === idx) {
+          setHighlightedMsg(null)
+        }
+      }, 500)
+    }
+    return isHighlighted
+  }
+  onCleanup(() => {
+    clearTimeout(highlightTimer)
+  })
 
   return (
     <div class="flex flex-col absolute bottom-0 h-full w-full  text-white overflow-hidden">
@@ -139,6 +166,7 @@ export function BodyMessages(props: Props) {
                 }}
               >
                 <Message
+                  isHighlighted={isMessagedHighlighted(it.index)}
                   message={props.messages[it.index]}
                   scrollToMsg={scrollToMessage}
                 />
