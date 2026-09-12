@@ -1,5 +1,5 @@
 import { createSignal, Match, onCleanup, onMount, Switch } from "solid-js"
-import { CHAT_PROBS, MESSAGE_SIZE, OWNER_AVATAR } from "../constants"
+import { CHAT_PROBS, MESSAGE_SIZE, MESSAGES_SIZE_REF, OWNER_AVATAR } from "../constants"
 import { BodyMessages } from "./bodyMessages"
 import { Footer } from "./footer"
 import { Header } from "./header"
@@ -16,8 +16,11 @@ export type ParticipantT = {
 export type MessageT = {
   avatar: string
   id: number
-  text: string
   prepared: PreparedText
+  refPrepared?: PreparedText
+  refText?: string
+  refUser?: string
+  text: string
   username: string
 }
 
@@ -104,6 +107,43 @@ export function Chat() {
     }
     kickUser()
     onCleanup(() => clearTimeout(leaveTimer))
+
+    let convoTimer: ReturnType<typeof setTimeout>
+    const makeConvo = () => {
+      convoTimer = setTimeout(() => {
+        if (messages.length <= CHAT_PROBS.ADDRESS_GAP) {
+          makeConvo()
+          return
+        }
+        const decidedToAddress = Math.random() <= CHAT_PROBS.ADDRESS
+        if (decidedToAddress) {
+          makeConvo()
+          return
+        }
+        const absIdx = Math.floor(Math.random() * CHAT_PROBS.ADDRESS_SCAN)
+        const msgIdx = Math.max((messages.length - CHAT_PROBS.ADDRESS_GAP - 1) - absIdx, 0)
+        const msg = messages[msgIdx]
+        let userIdx = Math.floor(Math.random() * participants.length)
+        if (participants[userIdx].username === msg.username) {
+          userIdx = (userIdx + 1) % participants.length
+        }
+        const user = participants[userIdx]
+        const addr = genLorem(getMessageLen())
+        setMessages(messages.length, {
+          avatar: user.avatar,
+          id: messages.length,
+          prepared: prepare(addr, MESSAGE_SIZE),
+          refPrepared: prepare(msg.text, MESSAGES_SIZE_REF),
+          refText: msg.text,
+          refUser: msg.username,
+          text: addr,
+          username: user.username,
+        })
+        makeConvo()
+      }, CHAT_PROBS.ADDRESS_FREQ)
+    }
+    makeConvo()
+    onCleanup(() => clearTimeout(convoTimer))
   })
 
   return (

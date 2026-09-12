@@ -13,6 +13,7 @@ type Props = {
 }
 
 const LINE_HEIGHT = 19
+const LINE_HEIGHT_REF = 15
 
 export function BodyMessages(props: Props) {
   let scrollElementRef!: HTMLDivElement
@@ -25,8 +26,13 @@ export function BodyMessages(props: Props) {
       return props.messages.length
     },
     getScrollElement: () => scrollElementRef,
-    estimateSize: index =>
-      layout(props.messages[index].prepared, scrollWidth, LINE_HEIGHT).height + 8,
+    estimateSize: index => {
+      let height = layout(props.messages[index].prepared, scrollWidth, LINE_HEIGHT).height + 8
+      if (!!props.messages[index].refPrepared) {
+        height += layout(props.messages[index].refPrepared, scrollWidth, LINE_HEIGHT_REF).height
+      }
+      return height
+    },
     getItemKey: index => props.messages[index].id,
     overscan: 2
   })
@@ -118,11 +124,7 @@ export function BodyMessages(props: Props) {
                   width: '100%',
                 }}
               >
-                <Message
-                  avatar={props.messages[it.index].avatar}
-                  message={props.messages[it.index].text}
-                  username={props.messages[it.index].username}
-                />
+                <Message message={props.messages[it.index]} />
               </div>
             )}
           </For>

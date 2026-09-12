@@ -1,6 +1,7 @@
 export const OWNER_AVATAR = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZf3Xlgb6dIbE9wUkxoK0xdEQ3VMzdaYTviCM96GHFSA&s=10"
 
 export const MESSAGE_SIZE = "13px Roboto"
+export const MESSAGES_SIZE_REF = "10px Roboto"
 
 export const FOLLOW_THRESHOLD = 80
 
@@ -53,6 +54,10 @@ export const CHAT_PROBS = {
   LEAVE: 0.2,
   MESSAGE_FREQ: 3500,
   JOIN_FREQ: 5000,
-  LEAVE_FREQ: 6000
+  LEAVE_FREQ: 6000,
+  ADDRESS: 0.2, // Address someone in the chat probability
+  ADDRESS_FREQ: 6000, // how often should it roll for addressing
+  ADDRESS_GAP: 5, // amount of fresh messages that cannot be addressed
+  ADDRESS_SCAN: 8, // amount of messages that can be addressed after the gap
 }
 
